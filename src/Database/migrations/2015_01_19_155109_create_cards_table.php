@@ -20,7 +20,7 @@ class CreateCardsTable extends Migration
             $table->integer('dealt')->default(0);
             $table->integer('played')->default(0);
             $table->integer('in_play')->default(0);
-            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedInteger('player_id')->nullable();
             $table->timestamps();
         });
     }

@@ -43,10 +43,7 @@ class Card extends Model
 
     public function scopeRandomWhites($query)
     {
-        /** @var /Hopkins/SlackAgainstHumanity/Models/Card| $q */
-        $q = $query;
-
-        return $q->whereColor('white')->whereDealt(0)->orderBy(DB::raw('RAND()'));
+        return $query->whereColor('white')->whereDealt(0)->orderBy(DB::raw('RAND()'));
     }
     public function scopeRandomNewBlack($query)
     {
