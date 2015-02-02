@@ -15,8 +15,8 @@
 
     },
     "autoload": {
-        "psr-4": {
-            "Hopkins\\SlackAgainstHumanity\\": "src/"
+        "psr-0": {
+            "Hopkins\\SlackAgainstHumanity": "src/"
         }
     },
     "extra": {
