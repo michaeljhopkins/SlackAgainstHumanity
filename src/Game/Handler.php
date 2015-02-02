@@ -3,6 +3,7 @@
 use Hopkins\SlackAgainstHumanity\Models\Card;
 use Hopkins\SlackAgainstHumanity\Models\Player;
 use Maknz\Slack\Client;
+use Config;
 use Slack;
 
 class Handler
