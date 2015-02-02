@@ -10,13 +10,12 @@
         }
     ],
     "require": {
-      "laravel/framework": "5.*",
-      "maknz/slack": "~1.0"
+      "laravel/framework": "5.*"
 
     },
     "autoload": {
-        "psr-0": {
-            "Hopkins\\SlackAgainstHumanity": "src/"
+        "psr-4": {
+            "Hopkins\\SlackAgainstHumanity\\": "src"
         }
     },
     "extra": {
