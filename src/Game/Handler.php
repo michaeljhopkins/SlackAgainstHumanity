@@ -16,13 +16,13 @@ class Handler
 
     public function deal($job, $data)
     {
-        $player = Player::with(['cards'])->whereUsername($data['user_name'])->first();
+        $player = Player::with(['cards'])->whereUserName($data['user_name'])->first();
         $this->cards->deal($player);
     }
 
     public function play($job, $data)
     {
-        $player = Player::with(['cards'])->whereUsername($data['user_name'])->first();
+        $player = Player::with(['cards'])->whereUserName($data['user_name'])->first();
         $card = Card::find($data['text']);
         $this->cards->play($player, $card);
     }
@@ -39,7 +39,7 @@ class Handler
     {
         /** @var \Hopkins\SlackAgainstHumanity\Models\Card $card */
         $card = Card::find($data['text']);
-        $player = Player::whereUsername($data['user_name'])->first();
+        $player = Player::whereUserName($data['user_name'])->first();
         $this->cards->choose($player, $card);
     }
 
@@ -50,7 +50,7 @@ class Handler
 
     public function show($job, $data)
     {
-        $player = Player::whereUsername($data['user_name'])->first();
+        $player = Player::whereUserName($data['user_name'])->first();
         $cards = Card::whereUserId($player->id)->whereColor('white')->wherePlayed(0)->get();
         $this->cards->show($player, $cards);
     }
