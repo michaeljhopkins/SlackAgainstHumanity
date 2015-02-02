@@ -11,7 +11,6 @@ class Handler
     public function __construct(Cards $cards)
     {
         $this->cards = $cards;
-        $this->slack = new Client(Config::get('slack.endpoint'));
     }
 
     public function deal($job, $data)
