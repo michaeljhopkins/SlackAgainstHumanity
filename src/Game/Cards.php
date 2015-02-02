@@ -50,10 +50,10 @@ class Cards
             $this->endRound($judge, $whiteCards);
         }
     }
-    public function deal(Player $player)
+    public function deal($player)
     {
         if ($player->cah == 0) {
-            if ($this->player->whereCah(1)->whereIdle(0)->get()->count() == 2) {
+            if (Player::whereCah(1)->whereIdle(0)->get()->count() == 2) {
                 $player->update(['cah' => 1, 'idle' => 0]);
                 $this->maintainEight();
                 $this->pickNewBlackCard();
@@ -62,7 +62,7 @@ class Cards
                 $this->maintainEight();
             }
         } else {
-            Slack::to("@".$player->username)->send("You've already been dealt");
+            Slack::to("@".$player->user_name)->send("You've already been dealt");
         }
     }
     public function pickWinner($cardId)
