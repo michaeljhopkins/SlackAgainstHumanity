@@ -1,5 +1,5 @@
 {
-    "name": "hopkins/slackAgainstHumanity",
+    "name": "hopkins/slack-against-humanity",
     "description": "A slack webhook integration that lets your team play cards against humanity",
     "keywords": ["laravel", "slack", "hubot", "api", "webhook"],
     "authors": [
