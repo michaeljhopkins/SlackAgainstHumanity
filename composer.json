@@ -1,27 +1,33 @@
 {
-    "name": "hopkins/slack-against-humanity",
-    "description": "A slack webhook integration that lets your team play cards against humanity",
-    "keywords": ["laravel", "slack", "hubot", "api", "webhook"],
-    "authors": [
-        {
-          "name": "Michael Hopkins",
-          "email": "mhopkins321@gmail.com",
-            "role": "Developer"
-        }
-    ],
-    "require": {
-      "laravel/framework": "5.*"
-
-    },
-    "autoload": {
-        "psr-4": {
-            "Hopkins\\SlackAgainstHumanity\\": "src"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "1.0-dev"
-        }
-    },
-    "minimum-stability": "dev"
+  "name": "hopkins/slack-against-humanity",
+  "description": "A slack webhook integration that lets your team play cards against humanity",
+  "keywords": [
+    "laravel",
+    "slack",
+    "hubot",
+    "api",
+    "webhook"
+  ],
+  "authors": [
+    {
+      "name": "Michael Hopkins",
+      "email": "mhopkins321@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "illuminate/database": "5.*",
+    "illuminate/support": "5.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Hopkins\\SlackAgainstHumanity\\": "src"
+    }
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "1.0-dev"
+    }
+  },
+  "minimum-stability": "dev"
 }
