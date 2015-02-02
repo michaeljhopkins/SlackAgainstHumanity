@@ -30,21 +30,26 @@ use DB;
  * @method static Card randomWhites()
  * @method static Card randomNewBlack()
  */
-class Card extends Model{
+class Card extends Model
+{
     protected $guarded = ['id'];
     protected $fillable = ['dealt','player_id','text','color','in_play'];
     protected $table = 'cards';
 
-    public function player(){
+    public function player()
+    {
         return $this->belongsTo(Player::class);
     }
 
-    public function scopeRandomWhites($query){
+    public function scopeRandomWhites($query)
+    {
         /** @var /Hopkins/SlackAgainstHumanity/Models/Card| $q */
         $q = $query;
+
         return $q->whereColor('white')->whereDealt(0)->orderBy(DB::raw('RAND()'));
     }
-    public function scopeRandomNewBlack($query){
+    public function scopeRandomNewBlack($query)
+    {
         return $query->whereColor('black')->whereDealt(0)->orderBy(DB::raw('RAND()'));
     }
 }

@@ -11,7 +11,7 @@ class SahServiceProvider extends ServiceProvider
     {
         include __DIR__.'/../Http/routes.php';
         $this->publishes([
-            __DIR__.'/../Config/config.php'=>config_path('sah.php')
+            __DIR__.'/../Config/config.php' => config_path('sah.php'),
         ]);
     }
 

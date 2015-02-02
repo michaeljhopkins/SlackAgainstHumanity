@@ -5,44 +5,52 @@ use Hopkins\SlackAgainstHumanity\Models\Player;
 use Maknz\Slack\Client;
 use Slack;
 
-class Handler {
-    public function __construct(Cards $cards){
+class Handler
+{
+    public function __construct(Cards $cards)
+    {
         $this->cards = $cards;
         $this->slack = new Client(Config::get('slack.endpoint'));
     }
 
-    public function deal($job,$data){
+    public function deal($job, $data)
+    {
         $player = Player::with(['cards'])->whereUsername($data['user_name'])->first();
         $this->cards->deal($player);
     }
 
-    public function play($job,$data){
+    public function play($job, $data)
+    {
         $player = Player::with(['cards'])->whereUsername($data['user_name'])->first();
         $card = Card::find($data['text']);
-        $this->cards->play($player,$card);
+        $this->cards->play($player, $card);
     }
 
-    public function endRound($job,$data){
+    public function endRound($job, $data)
+    {
         $blackCard = Card::whereColor('black')->whereInPlay(1)->first();
         $judge = Player::with(['cards'])->find($blackCard->user_id);
         $whiteCards = Card::whereColor('white')->whereInPlay(1)->get();
-        $this->cards->endRound($judge,$blackCard,$whiteCards);
+        $this->cards->endRound($judge, $blackCard, $whiteCards);
     }
 
-    public function choose($job,$data){
+    public function choose($job, $data)
+    {
         /** @var \Hopkins\SlackAgainstHumanity\Models\Card $card */
         $card = Card::find($data['text']);
         $player = Player::whereUsername($data['user_name'])->first();
-        $this->cards->choose($player,$card);
+        $this->cards->choose($player, $card);
     }
 
-    public function quit($job,$data){
+    public function quit($job, $data)
+    {
         Player::find($data['id'])->update(['cards' => 0]);
     }
 
-    public function show($job,$data){
+    public function show($job, $data)
+    {
         $player = Player::whereUsername($data['user_name'])->first();
         $cards = Card::whereUserId($player->id)->whereColor('white')->wherePlayed(0)->get();
-        $this->cards->show($player,$cards);
+        $this->cards->show($player, $cards);
     }
 }

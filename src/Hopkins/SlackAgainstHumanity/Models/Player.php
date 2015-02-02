@@ -23,12 +23,13 @@ use Illuminate\Database\Query\Builder;
  * @method static Builder|Player whereIsJudge($value)
  * @method static Builder|Player whereIdle($value)
  */
-
-class Player extends Model{
+class Player extends Model
+{
     protected $table = 'users';
     protected $fillable = ['user_name','cah','idle','is_judge','played','num_cards'];
 
-    public function cards(){
+    public function cards()
+    {
         return $this->hasMany(Card::class);
     }
 }
