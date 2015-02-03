@@ -1,6 +1,6 @@
 ## Slack Against Humanity (A Laravel Package) v0.5
 
-[<img src="http://i.imgur.com/RBPa3cs.png">]
+<img src="http://i.imgur.com/RBPa3cs.png">
 
 Slack Against Humanity is a Slack/Hubot implementation of the popular card game, [Cards Against Humanity](http://cardsagainsthumanity.com). Commands are issued in your slack channel via [Custom Slash Commands](https://api.slack.com/slash-commands), Github's [Hubot](https://github.com/github/hubot), or a combination of both and then passed to this package. Cards will be dealt, Judges are picked at random, and who plays what card is kept secret until the end (if they win!).
 
@@ -19,19 +19,19 @@ Slack Against Humanity is a Slack/Hubot implementation of the popular card game,
 
 Anybody that wants to play needs to be dealt in. A check happens on every deal, and every new round that 3 people are playing. CAH with 2 people is kinda boring. Don't like your cards? Too bad, no cheating here.
 
-[<img src="http://i.imgur.com/lmHNLDJ.png">]
+<img src="http://i.imgur.com/lmHNLDJ.png">
 
 Once there have been dealt in, a Judge is chosen at random, and a Black card is chosen at random. Everybody except the Judge needs to play a white card from their hand. 
 
-[<img src="http://i.imgur.com/AbgUdIO.png">]
+<img src="http://i.imgur.com/AbgUdIO.png">
 
 After each player plays a card a check happens to see if everybody who can play, did play. If they did, it's time to pick a winner! Only the Judge is allowed to choose the winner. 
 
-[<img src="http://i.imgur.com/EB40EKX.png">]
+<img src="http://i.imgur.com/EB40EKX.png">
 
 Everybody who played a card is then dealt a new card. And it starts all over again.
 
-[<img src="http://i.imgur.com/8sEwCoi.png">]
+<img src="http://i.imgur.com/8sEwCoi.png">
 
 ---
 
@@ -72,7 +72,7 @@ In doing this, the following routes are added to your project
 ```
 
 Players can use public messages to trigger all of these endpoints except for `Route::post('play',...)`. This needs to played in secret. A [Custom Slash Command](https://api.slack.com/slash-commands) is perfect for this. 
-[<img src="http://i.imgur.com/aNea4AX.png">]
+<img src="http://i.imgur.com/aNea4AX.png">
 
 We use our hubot, Sterling, to play the other commands. The coffee script is a fairly simple one to make it work.
 
