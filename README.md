@@ -71,6 +71,10 @@ In doing this, the following routes are added to your project
 
 ```
 
+Until I figure out how to correctly copy the migration/seeds into your project via (presumably) a `php artisan` command, you will want to make sure you copy the below files into your main project structure.
+
+[<img src="http://i.imgur.com/XdCrLFL.png">](https://github.com/michael-hopkins/SlackAgainstHumanity/tree/master/src/Database)
+
 Players can use public messages to trigger all of these endpoints except for `Route::post('play',...)`. This needs to played in secret. A [Custom Slash Command](https://api.slack.com/slash-commands) is perfect for this. 
 <img src="http://i.imgur.com/aNea4AX.png">
 
