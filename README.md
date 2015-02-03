@@ -4,6 +4,8 @@
 
 Slack Against Humanity is a Slack/Hubot implementation of the popular card game, [Cards Against Humanity](http://cardsagainsthumanity.com). Commands are issued in your slack channel via [Custom Slash Commands](https://api.slack.com/slash-commands), Github's [Hubot](https://github.com/github/hubot), or a combination of both and then passed to this package. Cards will be dealt, Judges are picked at random, and who plays what card is kept secret until the end (if they win!).
 
+---
+
 - This is **Cards Against Humanity**. If you have sensibilities that are easily offended, this game is NOT FOR YOU. 
 - All commands are issued via GET and POST requests against a web API
 - **763** included cards!
@@ -16,6 +18,11 @@ Slack Against Humanity is a Slack/Hubot implementation of the popular card game,
 - with many more features in the works.
 
 ---
+
+[![Latest Stable Version](https://poser.pugx.org/hopkins/slack-against-humanity/version.svg)](https://packagist.org/packages/hopkins/slack-against-humanity) 
+[![Total Downloads](https://poser.pugx.org/hopkins/slack-against-humanity/downloads.svg)](https://packagist.org/packages/hopkins/slack-against-humanity)
+[![Latest Unstable Version](https://poser.pugx.org/hopkins/slack-against-humanity/v/unstable.svg)](//packagist.org/packages/hopkins/slack-against-humanity) 
+[![License](https://poser.pugx.org/hopkins/slack-against-humanity/license.svg)](https://packagist.org/packages/hopkins/slack-against-humanity)
 
 Anybody that wants to play needs to be dealt in. A check happens on every deal, and every new round that 3 people are playing. CAH with 2 people is kinda boring. Don't like your cards? Too bad, no cheating here.
 
@@ -34,11 +41,6 @@ Everybody who played a card is then dealt a new card. And it starts all over aga
 <img src="http://i.imgur.com/8sEwCoi.png">
 
 ---
-
-[![Latest Stable Version](https://poser.pugx.org/hopkins/slack-against-humanity/version.svg)](https://packagist.org/packages/hopkins/slack-against-humanity) 
-[![Total Downloads](https://poser.pugx.org/hopkins/slack-against-humanity/downloads.svg)](https://packagist.org/packages/hopkins/slack-against-humanity)
-[![Latest Unstable Version](https://poser.pugx.org/hopkins/slack-against-humanity/v/unstable.svg)](//packagist.org/packages/hopkins/slack-against-humanity) 
-[![License](https://poser.pugx.org/hopkins/slack-against-humanity/license.svg)](https://packagist.org/packages/hopkins/slack-against-humanity)
 
 #Installation
 
