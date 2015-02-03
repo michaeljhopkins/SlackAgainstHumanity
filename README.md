@@ -35,9 +35,9 @@ Everybody who played a card is then dealt a new card. And it starts all over aga
 
 ---
 
-[![Latest Stable Version](https://poser.pugx.org/hopkins/slack-against-humanity/v/stable.svg)](https://packagist.org/packages/hopkins/slack-against-humanity) 
-[![Total Downloads](https://poser.pugx.org/hopkins/slack-against-humanity/downloads.svg)](https://packagist.org/packages/hopkins/slack-against-humanity) 
-[![Latest Unstable Version](https://poser.pugx.org/hopkins/slack-against-humanity/v/unstable.svg)](https://packagist.org/packages/hopkins/slack-against-humanity) 
+[![Latest Stable Version](https://poser.pugx.org/hopkins/slack-against-humanity/version.svg)](https://packagist.org/packages/hopkins/slack-against-humanity) 
+[![Total Downloads](https://poser.pugx.org/hopkins/slack-against-humanity/downloads.svg)](https://packagist.org/packages/hopkins/slack-against-humanity)
+[![Latest Unstable Version](https://poser.pugx.org/hopkins/slack-against-humanity/v/unstable.svg)](//packagist.org/packages/hopkins/slack-against-humanity) 
 [![License](https://poser.pugx.org/hopkins/slack-against-humanity/license.svg)](https://packagist.org/packages/hopkins/slack-against-humanity)
 
 #Installation
