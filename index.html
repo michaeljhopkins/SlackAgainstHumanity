@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="description" content="Slackagainsthumanity : A laravel 5 package for play Cards Against Humanity in your Slack channel">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>Slackagainsthumanity</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/michael-hopkins/SlackAgainstHumanity">View on GitHub</a>
+
+          <h1 id="project_title">Slackagainsthumanity</h1>
+          <h2 id="project_tagline">A laravel 5 package for play Cards Against Humanity in your Slack channel</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/michael-hopkins/SlackAgainstHumanity/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/michael-hopkins/SlackAgainstHumanity/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h2>
+<a id="slack-against-humanity-a-laravel-package-v05" class="anchor" href="#slack-against-humanity-a-laravel-package-v05" aria-hidden="true"><span class="octicon octicon-link"></span></a>Slack Against Humanity (A Laravel Package) v0.5</h2>
+
+<p><img src="http://i.imgur.com/RBPa3cs.png"></p>
+
+<p>Slack Against Humanity is a Slack/Hubot implementation of the popular card game, <a href="http://cardsagainsthumanity.com">Cards Against Humanity</a>. Commands are issued in your slack channel via <a href="https://api.slack.com/slash-commands">Custom Slash Commands</a>, Github's <a href="https://github.com/github/hubot">Hubot</a>, or a combination of both and then passed to this package. Cards will be dealt, Judges are picked at random, and who plays what card is kept secret until the end (if they win!).</p>
+
+<ul>
+<li>This is <strong>Cards Against Humanity</strong>. If you have sensibilities that are easily offended, this game is NOT FOR YOU. </li>
+<li>All commands are issued via GET and POST requests against a web API</li>
+<li>
+<strong>763</strong> included cards!</li>
+<li>103 <strong>Black Cards</strong> </li>
+<li>660 <strong>White Cards</strong>
+</li>
+<li>A randomly picked Judge each round</li>
+<li>Ability to enter and exit play <strong>on your time</strong>
+</li>
+<li>Laravel <strong>5.x</strong> compatibility</li>
+<li>Intellegence on who is actually playing or not</li>
+<li>with many more features in the works.</li>
+</ul>
+
+<hr>
+
+<p>Anybody that wants to play needs to be dealt in. A check happens on every deal, and every new round that 3 people are playing. CAH with 2 people is kinda boring. Don't like your cards? Too bad, no cheating here.</p>
+
+<p><img src="http://i.imgur.com/lmHNLDJ.png"></p>
+
+<p>Once there have been dealt in, a Judge is chosen at random, and a Black card is chosen at random. Everybody except the Judge needs to play a white card from their hand. </p>
+
+<p><img src="http://i.imgur.com/AbgUdIO.png"></p>
+
+<p>After each player plays a card a check happens to see if everybody who can play, did play. If they did, it's time to pick a winner! Only the Judge is allowed to choose the winner. </p>
+
+<p><img src="http://i.imgur.com/EB40EKX.png"></p>
+
+<p>Everybody who played a card is then dealt a new card. And it starts all over again.</p>
+
+<p><img src="http://i.imgur.com/8sEwCoi.png"></p>
+
+<hr>
+
+<h1>
+<a id="installation" class="anchor" href="#installation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Installation</h1>
+
+<p>In it's current state, this package expects that you have set up <a href="https://github.com/maknz/slack"><strong>Maknz/Slack</strong></a> on your own. This includes setting up the facade <code>Slack::</code> as well as set up a <strong>#cards</strong> channel in Slack.</p>
+
+<p>Require this package in your <code>composer.json</code> and update composer.</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s1"><span class="pl-pds">"</span>hopkins/slack-against-humanity<span class="pl-pds">"</span></span>: <span class="pl-s1"><span class="pl-pds">"</span>~0.5<span class="pl-pds">"</span></span></span></pre></div>
+
+<p>After updating composer, add the ServiceProvider to the providers array in <code>app/config/app.php</code></p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"><span class="pl-s1"><span class="pl-pds">'</span>Hopkins\SlackAgainstHumanity\Providers\SahServiceProvider<span class="pl-pds">'</span></span>,</span></pre></div>
+
+<p>In doing this, the following routes are added to your project</p>
+
+<div class="highlight highlight-php"><pre><span class="pl-s2"></span>
+<span class="pl-s2">    <span class="pl-s3">Route</span><span class="pl-k">::</span>group([<span class="pl-s1"><span class="pl-pds">'</span>prefix<span class="pl-pds">'</span></span> <span class="pl-k">=&gt;</span> <span class="pl-s1"><span class="pl-pds">'</span>cards<span class="pl-pds">'</span></span>], <span class="pl-st">function</span> () {</span>
+<span class="pl-s2">        <span class="pl-s3">Route</span><span class="pl-k">::</span>get(<span class="pl-s1"><span class="pl-pds">'</span>deal<span class="pl-pds">'</span></span>, <span class="pl-st">function</span> () {<span class="pl-s3">Queue</span><span class="pl-k">::</span>push(<span class="pl-s1"><span class="pl-pds">'</span>\Hopkins\SlackAgainstHumanity\Game\Handler@deal<span class="pl-pds">'</span></span>, <span class="pl-s3">Input</span><span class="pl-k">::</span>all());});</span>
+<span class="pl-s2">        <span class="pl-s3">Route</span><span class="pl-k">::</span>get(<span class="pl-s1"><span class="pl-pds">'</span>start<span class="pl-pds">'</span></span>, <span class="pl-st">function</span> () {<span class="pl-s3">Queue</span><span class="pl-k">::</span>push(<span class="pl-s1"><span class="pl-pds">'</span>\Hopkins\SlackAgainstHumanity\Game\Handler@start<span class="pl-pds">'</span></span>, <span class="pl-s3">Input</span><span class="pl-k">::</span>all());});</span>
+<span class="pl-s2">        <span class="pl-s3">Route</span><span class="pl-k">::</span>get(<span class="pl-s1"><span class="pl-pds">'</span>show<span class="pl-pds">'</span></span>, <span class="pl-st">function</span> () {<span class="pl-s3">Queue</span><span class="pl-k">::</span>push(<span class="pl-s1"><span class="pl-pds">'</span>\Hopkins\SlackAgainstHumanity\Game\Handler@show<span class="pl-pds">'</span></span>, <span class="pl-s3">Input</span><span class="pl-k">::</span>all());});</span>
+<span class="pl-s2">        <span class="pl-s3">Route</span><span class="pl-k">::</span>post(<span class="pl-s1"><span class="pl-pds">'</span>play<span class="pl-pds">'</span></span>, <span class="pl-st">function</span> () {<span class="pl-s3">Queue</span><span class="pl-k">::</span>push(<span class="pl-s1"><span class="pl-pds">'</span>\Hopkins\SlackAgainstHumanity\Game\Handler@play<span class="pl-pds">'</span></span>, <span class="pl-s3">Input</span><span class="pl-k">::</span>all());});</span>
+<span class="pl-s2">        <span class="pl-s3">Route</span><span class="pl-k">::</span>post(<span class="pl-s1"><span class="pl-pds">'</span>choose<span class="pl-pds">'</span></span>, <span class="pl-st">function</span> () {<span class="pl-s3">Queue</span><span class="pl-k">::</span>push(<span class="pl-s1"><span class="pl-pds">'</span>\Hopkins\SlackAgainstHumanity\Game\Handler@choose<span class="pl-pds">'</span></span>, <span class="pl-s3">Input</span><span class="pl-k">::</span>all());});</span>
+<span class="pl-s2">        <span class="pl-s3">Route</span><span class="pl-k">::</span>get(<span class="pl-s1"><span class="pl-pds">'</span>quit<span class="pl-pds">'</span></span>, <span class="pl-st">function</span> () {<span class="pl-s3">Queue</span><span class="pl-k">::</span>push(<span class="pl-s1"><span class="pl-pds">'</span>\Hopkins\SlackAgainstHumanity\Game\Handler@quit<span class="pl-pds">'</span></span>, <span class="pl-s3">Input</span><span class="pl-k">::</span>all());});</span>
+<span class="pl-s2">    });</span>
+<span class="pl-s2"></span></pre></div>
+
+<p>Until I figure out how to correctly copy the migration/seeds into your project via (presumably) a <code>php artisan</code> command, you will want to make sure you copy the below files into your main project structure.</p>
+
+<p><a href="https://github.com/michael-hopkins/SlackAgainstHumanity/tree/master/src/Database"><img src="http://i.imgur.com/XdCrLFL.png"></a></p>
+
+<p>Players can use public messages to trigger all of these endpoints except for <code>Route::post('play',...)</code>. This needs to played in secret. A <a href="https://api.slack.com/slash-commands">Custom Slash Command</a> is perfect for this. 
+<img src="http://i.imgur.com/aNea4AX.png"></p>
+
+<p>We use our hubot, Sterling, to play the other commands. The coffee script is a fairly simple one to make it work.</p>
+
+<div class="highlight highlight-coffeescript"><pre>
+    <span class="pl-c"># Description:</span>
+    <span class="pl-c">#   Cards Against Humanity!</span>
+    <span class="pl-c">#</span>
+    <span class="pl-c"># Dependencies:</span>
+    <span class="pl-c">#   None</span>
+    <span class="pl-c">#</span>
+    <span class="pl-c"># Commands:</span>
+    <span class="pl-c">#   hubot cards deal - adds you to the current cards game</span>
+    <span class="pl-c">#   hubot cards quit - removes you from the current cards game</span>
+    <span class="pl-c">#   hubot cards show - messages you your cards again incase you forgot</span>
+    <span class="pl-c">#   /cards {id} - plays the id of your chosen card for the current round (a slack slash command is taking care of it though)</span>
+    <span class="pl-c">#   hubot cards choose {id} - The current round's judge chooses the best card against the pre determined black card</span>
+    <span class="pl-c">#</span>
+    <span class="pl-c"># Author:</span>
+    <span class="pl-c">#   michael-hopkins</span>
+    <span class="pl-v"><span class="pl-v">deal <span class="pl-k">=</span></span></span> <span class="pl-s1"><span class="pl-pds">"</span>http://url.com/cards/deal<span class="pl-pds">"</span></span>
+    <span class="pl-v"><span class="pl-v">quit <span class="pl-k">=</span></span></span> <span class="pl-s1"><span class="pl-pds">"</span>http://url.com/cards/quit<span class="pl-pds">"</span></span>
+    <span class="pl-v"><span class="pl-v">choose <span class="pl-k">=</span></span></span> <span class="pl-s1"><span class="pl-pds">"</span>http://url.com/cards/choose<span class="pl-pds">"</span></span>
+    <span class="pl-v"><span class="pl-v">show <span class="pl-k">=</span></span></span> <span class="pl-s1"><span class="pl-pds">"</span>http://url.com/cards/show<span class="pl-pds">"</span></span>
+
+    <span class="pl-en">module.exports </span><span class="pl-k">=</span><span class="pl-vpf"> <span class="pl-vpf">(hubot)</span></span> <span class="pl-st"><span class="pl-st">-&gt;</span></span>
+        hubot.respond <span class="pl-sr"><span class="pl-pds">/</span>cards deal<span class="pl-pds">/</span>i</span>, <span class="pl-vpf">(msg)</span> <span class="pl-st">-&gt;</span>
+            <span class="pl-v"><span class="pl-v">user <span class="pl-k">=</span></span></span> msg.message.user.name
+            <span class="pl-v"><span class="pl-v">message <span class="pl-k">=</span></span></span> msg.message.text
+            <span class="pl-v"><span class="pl-v">room <span class="pl-k">=</span></span></span> msg.message.user.room
+            <span class="pl-v"><span class="pl-v">data <span class="pl-k">=</span></span></span> {<span class="pl-s1"><span class="pl-pds">'</span>user_name<span class="pl-pds">'</span></span><span class="pl-k">:</span> user,<span class="pl-s1"><span class="pl-pds">'</span>message<span class="pl-pds">'</span></span><span class="pl-k">:</span> message,<span class="pl-s1"><span class="pl-pds">'</span>room<span class="pl-pds">'</span></span><span class="pl-k">:</span> room,<span class="pl-s1"><span class="pl-pds">'</span>directive<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-c1">1</span>}
+            hubot.http(deal).query(data).get() <span class="pl-vpf">(err, res, body)</span> <span class="pl-st">-&gt;</span>
+
+        hubot.respond <span class="pl-sr"><span class="pl-pds">/</span>cards quit<span class="pl-pds">/</span>i</span>, <span class="pl-vpf">(msg)</span> <span class="pl-st">-&gt;</span>
+            <span class="pl-v"><span class="pl-v">user <span class="pl-k">=</span></span></span> msg.message.user.name
+            <span class="pl-v"><span class="pl-v">message <span class="pl-k">=</span></span></span> msg.message.text
+            <span class="pl-v"><span class="pl-v">room <span class="pl-k">=</span></span></span> msg.message.user.room
+            <span class="pl-v"><span class="pl-v">data <span class="pl-k">=</span></span></span> {<span class="pl-s1"><span class="pl-pds">'</span>user_name<span class="pl-pds">'</span></span><span class="pl-k">:</span> user,<span class="pl-s1"><span class="pl-pds">'</span>message<span class="pl-pds">'</span></span><span class="pl-k">:</span> message,<span class="pl-s1"><span class="pl-pds">'</span>room<span class="pl-pds">'</span></span><span class="pl-k">:</span> room,<span class="pl-s1"><span class="pl-pds">'</span>directive<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-c1">1</span>}
+            hubot.http(quit).query(data).get() <span class="pl-vpf">(err, res, body)</span> <span class="pl-st">-&gt;</span>
+
+        hubot.respond <span class="pl-sr"><span class="pl-pds">/</span>cards show<span class="pl-pds">/</span>i</span>, <span class="pl-vpf">(msg)</span> <span class="pl-st">-&gt;</span>
+            <span class="pl-v"><span class="pl-v">user <span class="pl-k">=</span></span></span> msg.message.user.name
+            <span class="pl-v"><span class="pl-v">message <span class="pl-k">=</span></span></span> msg.message.text
+            <span class="pl-v"><span class="pl-v">room <span class="pl-k">=</span></span></span> msg.message.user.room
+            <span class="pl-v"><span class="pl-v">data <span class="pl-k">=</span></span></span> {<span class="pl-s1"><span class="pl-pds">'</span>user_name<span class="pl-pds">'</span></span><span class="pl-k">:</span> user,<span class="pl-s1"><span class="pl-pds">'</span>message<span class="pl-pds">'</span></span><span class="pl-k">:</span> message,<span class="pl-s1"><span class="pl-pds">'</span>room<span class="pl-pds">'</span></span><span class="pl-k">:</span> room,<span class="pl-s1"><span class="pl-pds">'</span>directive<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-c1">1</span>}
+            hubot.http(show).query(data).get() <span class="pl-vpf">(err, res, body)</span> <span class="pl-st">-&gt;</span>
+
+        hubot.respond <span class="pl-sr"><span class="pl-pds">/</span>cards choose (<span class="pl-c1">.</span><span class="pl-k">*</span>)<span class="pl-pds">/</span>i</span>, <span class="pl-vpf">(msg)</span> <span class="pl-st">-&gt;</span>
+            <span class="pl-v"><span class="pl-v">user <span class="pl-k">=</span></span></span> msg.message.user.name
+            <span class="pl-v"><span class="pl-v">message <span class="pl-k">=</span></span></span> msg.message.text
+            <span class="pl-v"><span class="pl-v">room <span class="pl-k">=</span></span></span> msg.message.user.room
+            <span class="pl-v"><span class="pl-v">cardId <span class="pl-k">=</span></span></span> msg.match[<span class="pl-c1">1</span>]
+            <span class="pl-v"><span class="pl-v">data <span class="pl-k">=</span></span></span> {<span class="pl-s1"><span class="pl-pds">'</span>user_name<span class="pl-pds">'</span></span><span class="pl-k">:</span> user,<span class="pl-s1"><span class="pl-pds">'</span>message<span class="pl-pds">'</span></span><span class="pl-k">:</span> message,<span class="pl-s1"><span class="pl-pds">'</span>room<span class="pl-pds">'</span></span><span class="pl-k">:</span> room,<span class="pl-s1"><span class="pl-pds">'</span>directive<span class="pl-pds">'</span></span><span class="pl-k">:</span> <span class="pl-c1">1</span>,<span class="pl-s1"><span class="pl-pds">'</span>cardId<span class="pl-pds">'</span></span><span class="pl-k">:</span> cardId}
+            hubot.http(choose).query(data).get() <span class="pl-vpf">(err, res, body)</span> <span class="pl-st">-&gt;</span>
+</pre></div>
+
+<h1>
+<a id="roadmap" class="anchor" href="#roadmap" aria-hidden="true"><span class="octicon octicon-link"></span></a>"Roadmap"</h1>
+
+<ul>
+<li>Add in tests to verify complete functioning package</li>
+<li>Black cards that require 2 cards (and more) from each player</li>
+<li>Using an image processing library to generate an actual "card" instead of just a message</li>
+<li>Tie the <code>@user++</code> message at the end of the round into the <a href="https://github.com/ajacksified/hubot-plusplus">Hubot-PlusPlus</a> script</li>
+</ul>
+
+<h1>
+<a id="license" class="anchor" href="#license" aria-hidden="true"><span class="octicon octicon-link"></span></a>License</h1>
+
+<p>This project islicensed using <a href="http://www.dbad-license.org/">DBAD</a>. Go have a blast.</p>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">Slackagainsthumanity maintained by <a href="https://github.com/michael-hopkins">michael-hopkins</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
