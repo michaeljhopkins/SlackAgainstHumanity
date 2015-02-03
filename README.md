@@ -1,6 +1,6 @@
 ## Slack Against Humanity (A Laravel Package) v0.5
 
-<img src="http://i.imgur.com/RBPa3cs.png">
+<img src="http://i.imgur.com/jS0h048.png">
 
 Slack Against Humanity is a Slack/Hubot implementation of the popular card game, [Cards Against Humanity](http://cardsagainsthumanity.com). Commands are issued in your slack channel via [Custom Slash Commands](https://api.slack.com/slash-commands), Github's [Hubot](https://github.com/github/hubot), or a combination of both and then passed to this package. Cards will be dealt, Judges are picked at random, and who plays what card is kept secret until the end (if they win!).
 
