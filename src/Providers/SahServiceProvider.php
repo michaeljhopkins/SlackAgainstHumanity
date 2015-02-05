@@ -13,10 +13,13 @@ class SahServiceProvider extends ServiceProvider
 
         $createCardsTable = 'create_cards_table.php';
         $createPlayersTable = 'create_players_table.php';
+        $cardsMigration = __DIR__.'/../Database/migrations'.$createCardsTable;
+        $playersMigration = __DIR__.'/../Database/migrations'.$createPlayersTable;
+        $seedFiles = __DIR__.'/../Database/seeds';
         $this->publishes([
-            __DIR__ . '/../Database/migrations/'. $createCardsTable => $this->app['path.database'].'/migrations/'. $this->getDatePrefix().$createCardsTable,
-            __DIR__ . '/../Database/migrations/'. $createPlayersTable => $this->app['path.database'].'/migrations/'. $createPlayersTable,
-            __DIR__.'/../Database/seeds' => $this->app['path.database'].'/seeds'
+            $cardsMigration => $this->app['path.database'].'/migrations/'. $this->getDatePrefix().$createCardsTable,
+            $playersMigration => $this->app['path.database'].'/migrations/'. $createPlayersTable,
+            $seedFiles => $this->app['path.database'].'/seeds'
         ]);
     }
 

@@ -23,7 +23,6 @@ use Illuminate\Database\Query\Builder;
  */
 class Player extends Model
 {
-    protected $table = 'players';
     protected $fillable = ['user_name','cah','idle','is_judge','played','num_cards'];
 
     public function cards()
