@@ -2,7 +2,7 @@
 
 use Hopkins\SlackAgainstHumanity\Models\Card;
 use Hopkins\SlackAgainstHumanity\Models\Player;
-use Illuminate\Support\Facades\Response;
+use Response;
 use Input;
 
 class Handler
