@@ -2,6 +2,7 @@
 
 use Hopkins\SlackAgainstHumanity\Models\Card;
 use Hopkins\SlackAgainstHumanity\Models\Player;
+use Illuminate\Support\Facades\Response;
 use Input;
 
 class Handler
@@ -16,6 +17,7 @@ class Handler
         $data = Input::all();
         $player = Player::with(['cards'])->where('user_name','=',$data['user_name'])->first();
         $this->cards->deal($player);
+        return Response::json(['message'=>'success']);
     }
 
     public function play()
