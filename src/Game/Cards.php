@@ -3,6 +3,7 @@
 use DB;
 use Hopkins\SlackAgainstHumanity\Models\Card;
 use Hopkins\SlackAgainstHumanity\Models\Player;
+use Illuminate\Database\Eloquent\Collection;
 use Slack;
 
 class Cards
