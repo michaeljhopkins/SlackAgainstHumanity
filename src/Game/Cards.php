@@ -4,6 +4,7 @@ use DB;
 use Hopkins\SlackAgainstHumanity\Models\Card;
 use Hopkins\SlackAgainstHumanity\Models\Player;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Slack;
 
 class Cards
@@ -13,7 +14,7 @@ class Cards
         $this->card = $card;
         $this->player = $player;
     }
-    public function choose(Player $player, Card $card)
+    public function choose($player, $card)
     {
         if ($player->is_judge) {
             $this->pickWinner($card->id);
@@ -23,7 +24,7 @@ class Cards
         }
     }
 
-    public function endRound(Player $judge, Collection $whiteCards)
+    public function endRound($judge, $whiteCards)
     {
         $blackCard = Card::whereColor('black')->whereInPlay(1)->first();
         Slack::send($blackCard->text);
@@ -32,7 +33,7 @@ class Cards
         }
         Slack::send("@".$judge->user_name." please respond with `/choose {id}`");
     }
-    public function play(Player $player,Card $card)
+    public function play($player,$card)
     {
         if (!$player->played && $player->id == $card->player_id) {
             $card->update(['in_play' => 1]);
@@ -50,7 +51,7 @@ class Cards
             $this->endRound($judge, $whiteCards);
         }
     }
-    public function deal(Player $player)
+    public function deal($player)
     {
         if ($player->cah == 0) {
             if (Player::whereCah(1)->whereIdle(0)->get()->count() == 2) {
@@ -115,7 +116,7 @@ class Cards
         Slack::to("#cards")->send("use `/cards {id}` to play a card. Only you will know which card is yours");
     }
 
-    public function endGameCommands(Player $player)
+    public function endGameCommands($player)
     {
         $this->removeCardsFromPlay();
         $this->maintainEight();
@@ -127,7 +128,7 @@ class Cards
         }
     }
 
-    public function show(Player $player, Collection $cards)
+    public function show($player, $cards)
     {
         foreach ($cards as $card) {
             Slack::to("@".$player->user_name)->send($card->id.". ".$card->text);
