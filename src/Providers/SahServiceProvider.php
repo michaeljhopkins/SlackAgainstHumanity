@@ -1,8 +1,6 @@
 <?php namespace Hopkins\SlackAgainstHumanity\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Maknz\Slack\Client;
-use GuzzleHttp\Client as Guzzle;
 
 class SahServiceProvider extends ServiceProvider
 {

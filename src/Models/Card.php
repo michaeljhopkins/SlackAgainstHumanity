@@ -1,7 +1,6 @@
 <?php namespace Hopkins\SlackAgainstHumanity\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\Builder;
 use DB;
 
 /**

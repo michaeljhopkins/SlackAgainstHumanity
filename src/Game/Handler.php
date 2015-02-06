@@ -2,9 +2,6 @@
 
 use Hopkins\SlackAgainstHumanity\Models\Card;
 use Hopkins\SlackAgainstHumanity\Models\Player;
-use Maknz\Slack\Client;
-use Config;
-use Slack;
 
 class Handler
 {
@@ -13,20 +10,20 @@ class Handler
         $this->cards = $cards;
     }
 
-    public function deal($job, $data)
+    public function deal($data)
     {
         $player = Player::with(['cards'])->where('user_name','=',$data['user_name'])->first();
         $this->cards->deal($player);
     }
 
-    public function play($job, $data)
+    public function play($data)
     {
         $player = Player::with(['cards'])->where('user_name','=',$data['user_name'])->first();
         $card = Card::find($data['text']);
         $this->cards->play($player, $card);
     }
 
-    public function endRound($job, $data)
+    public function endRound($data)
     {
         $blackCard = Card::whereColor('black')->whereInPlay(1)->first();
         $judge = Player::with(['cards'])->find($blackCard->user_id);
@@ -34,7 +31,7 @@ class Handler
         $this->cards->endRound($judge, $blackCard, $whiteCards);
     }
 
-    public function choose($job, $data)
+    public function choose($data)
     {
         /** @var \Hopkins\SlackAgainstHumanity\Models\Card $card */
         $card = Card::find($data['text']);
@@ -42,12 +39,12 @@ class Handler
         $this->cards->choose($player, $card);
     }
 
-    public function quit($job, $data)
+    public function quit($data)
     {
         Player::find($data['id'])->update(['cards' => 0]);
     }
 
-    public function show($job, $data)
+    public function show($data)
     {
         $player = Player::wherewhere('user_name','=',$data['user_name'])->first();
         $cards = Card::whereUserId($player->id)->whereColor('white')->wherePlayed(0)->get();

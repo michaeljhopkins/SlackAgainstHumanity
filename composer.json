@@ -1,4 +1,5 @@
 {
+  "license": "MIT",
   "name": "hopkins/slack-against-humanity",
   "description": "A slack webhook integration that lets your team play cards against humanity",
   "keywords": [
