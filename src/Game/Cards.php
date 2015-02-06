@@ -3,8 +3,6 @@
 use DB;
 use Hopkins\SlackAgainstHumanity\Models\Card;
 use Hopkins\SlackAgainstHumanity\Models\Player;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Slack;
 
 class Cards
@@ -70,12 +68,14 @@ class Cards
     {
         /** @var \Hopkins\SlackAgainstHumanity\Models\Card $winningCard */
         $winningCard = Card::find($cardId);
+        /** @var \Hopkins\SlackAgainstHumanity\Models\Player $winningPlayer */
         $winningPlayer = $this->player->find($winningCard->player_id);
         Slack::send("@".$winningPlayer->user_name."++ for ".$winningCard->text);
     }
 
     public function removeCardsFromPlay()
     {
+
         Card::whereInPlay(1)->update(['in_play' => 0, 'player_id' => null]);
         $this->player->wherePlayed(0)->whereIsJudge(0)->update(['idle' => 1]);
         $this->player->whereCah(1)->wherePlayed(1)->update(['played' => 0, 'idle' => 0]);
