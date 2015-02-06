@@ -149,4 +149,5 @@ We use our hubot, Sterling, to play the other commands. The coffee script is a f
 
 # License
 
-This project islicensed using [DBAD](http://www.dbad-license.org/). Go have a blast.
+This project is licensed using [DBAD](http://www.dbad-license.org/). Go have a blast.
+
