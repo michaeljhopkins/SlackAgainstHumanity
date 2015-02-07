@@ -1,4 +1,4 @@
-<?php namespace Game;
+<?php namespace Hopkins\SlackAgainstHumanity\Game;
 
 use Hopkins\SlackAgainstHumanity\Game\Cards;
 use Hopkins\SlackAgainstHumanity\Models\Card;
