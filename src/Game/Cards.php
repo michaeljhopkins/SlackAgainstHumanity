@@ -27,9 +27,9 @@ class Cards
         $blackCard = Card::whereColor('black')->whereInPlay(1)->first();
         Slack::send($blackCard->text);
         foreach ($whiteCards as $card) {
-            Slack::send($card->id.". ".$card->text);
+            Slack::to("#cards")->send($card->id.". ".$card->text);
         }
-        Slack::send("@".$judge->user_name." please respond with `/choose {id}`");
+        Slack::to("#cards")->send("@".$judge->user_name." please respond with `/choose {id}`");
     }
     public function play($player,$card)
     {
@@ -70,7 +70,7 @@ class Cards
         $winningCard = Card::find($cardId);
         /** @var \Hopkins\SlackAgainstHumanity\Models\Player $winningPlayer */
         $winningPlayer = $this->player->find($winningCard->player_id);
-        Slack::send("@".$winningPlayer->user_name."++ for ".$winningCard->text);
+        Slack::to("#cards")->send("@".$winningPlayer->user_name."++ for ".$winningCard->text);
     }
 
     public function removeCardsFromPlay()
@@ -104,7 +104,7 @@ class Cards
         $player = $this->player->whereCah(1)->whereIsJudge(0)->whereIdle(0)->orderBy(DB::raw('RAND()'))->first();
         $player->update(['is_judge' => 1]);
         $oldJudge->update(['is_judge' => 0, 'idle' => 0]);
-        Slack::send("The next judge is @".$player->user_name);
+        Slack::to("#cards")->send("The next judge is @".$player->user_name);
     }
 
     public function pickNewBlackCard()
