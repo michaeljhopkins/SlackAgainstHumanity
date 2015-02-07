@@ -23,7 +23,7 @@ Slack Against Humanity is a Slack/Hubot implementation of the popular card game,
 [![Total Downloads](https://poser.pugx.org/hopkins/slack-against-humanity/downloads.svg)](https://packagist.org/packages/hopkins/slack-against-humanity)
 [![Latest Unstable Version](https://poser.pugx.org/hopkins/slack-against-humanity/v/unstable.svg)](//packagist.org/packages/hopkins/slack-against-humanity) 
 [![License](https://poser.pugx.org/hopkins/slack-against-humanity/license.svg)](https://packagist.org/packages/hopkins/slack-against-humanity)
-[![SensioLabsInsight](https://insight.sensiolabs.com/projects/7f2ad83c-308b-45cd-bfa9-aee3399eb7bc/small.png)](https://insight.sensiolabs.com/projects/7f2ad83c-308b-45cd-bfa9-aee3399eb7bc)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/7f2ad83c-308b-45cd-bfa9-aee3399eb7bc/mini.png)](https://insight.sensiolabs.com/projects/7f2ad83c-308b-45cd-bfa9-aee3399eb7bc)
 
 Anybody that wants to play needs to be dealt in. A check happens on every deal, and every new round that 3 people are playing. CAH with 2 people is kinda boring. Don't like your cards? Too bad, no cheating here.
 

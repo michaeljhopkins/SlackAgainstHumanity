@@ -3,6 +3,9 @@
 use DB;
 use Hopkins\SlackAgainstHumanity\Models\Card;
 use Hopkins\SlackAgainstHumanity\Models\Player;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Slack;
 
 class Cards
@@ -12,7 +15,7 @@ class Cards
         $this->card = $card;
         $this->player = $player;
     }
-    public function choose($player, $card)
+    public function choose(Player $player, Card $card)
     {
         if ($player->is_judge) {
             $this->pickWinner($card->id);
@@ -22,7 +25,7 @@ class Cards
         }
     }
 
-    public function endRound($judge, $whiteCards)
+    public function endRound(Collection $judge, array $whiteCards)
     {
         $blackCard = Card::whereColor('black')->whereInPlay(1)->first();
         Slack::send($blackCard->text);
@@ -31,7 +34,7 @@ class Cards
         }
         Slack::to("#cards")->send("@".$judge->user_name." please respond with `/choose {id}`");
     }
-    public function play($player,$card)
+    public function play(Model $player,Collection $card)
     {
         if (!$player->played && $player->id == $card->player_id) {
             $card->update(['in_play' => 1]);
@@ -49,7 +52,7 @@ class Cards
             $this->endRound($judge, $whiteCards);
         }
     }
-    public function deal($player)
+    public function deal(Model $player)
     {
         if ($player->cah == 0) {
             if (Player::whereCah(1)->whereIdle(0)->get()->count() == 2) {
@@ -116,7 +119,7 @@ class Cards
         Slack::to("#cards")->send("use `/cards {id}` to play a card. Only you will know which card is yours");
     }
 
-    public function endGameCommands($player)
+    public function endGameCommands(Player $player)
     {
         $this->removeCardsFromPlay();
         $this->maintainEight();
@@ -128,7 +131,7 @@ class Cards
         }
     }
 
-    public function show($player, $cards)
+    public function show(Player $player, Collection $cards)
     {
         foreach ($cards as $card) {
             Slack::to("@".$player->user_name)->send($card->id.". ".$card->text);

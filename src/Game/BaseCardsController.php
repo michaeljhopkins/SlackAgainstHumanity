@@ -32,8 +32,8 @@ class BaseCardsController extends Controller{
     {
         $blackCard = Card::whereColor('black')->whereInPlay(1)->first();
         $judge = Player::with(['cards'])->find($blackCard->user_id);
-        $whiteCards = Card::whereColor('white')->whereInPlay(1)->get();
-        $this->cards->endRound($judge, $blackCard, $whiteCards);
+        $whiteCards = Card::whereColor('white')->whereInPlay(1)->get()->toArray();
+        $this->cards->endRound($judge, $whiteCards);
         return Response::json(['message'=>'success']);
     }
 
