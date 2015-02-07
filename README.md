@@ -65,19 +65,31 @@ Run the artisan command to bring the migrations and see files into your source d
 php artisan vendor:publish
 ```
 
-In doing this, the following routes are added to your project
+Make a new **CardsController** that extends the controller in the package
+
+```php
+
+    <?php namespace Idop\Http\Controllers;
+
+    use Hopkins\SlackAgainstHumanity\Game\BaseCardsController;
+
+    class CardsController extends BaseCardsController{}
+    
+```
+
+You will also need to add the below into your routes.php file
 
 ```php
 
     Route::group(['prefix' => 'cards'], function () {
-        Route::get('deal', function () {Queue::push('\Hopkins\SlackAgainstHumanity\Game\Handler@deal', Input::all());});
-        Route::get('start', function () {Queue::push('\Hopkins\SlackAgainstHumanity\Game\Handler@start', Input::all());});
-        Route::get('show', function () {Queue::push('\Hopkins\SlackAgainstHumanity\Game\Handler@show', Input::all());});
-        Route::post('play', function () {Queue::push('\Hopkins\SlackAgainstHumanity\Game\Handler@play', Input::all());});
-        Route::post('choose', function () {Queue::push('\Hopkins\SlackAgainstHumanity\Game\Handler@choose', Input::all());});
-        Route::get('quit', function () {Queue::push('\Hopkins\SlackAgainstHumanity\Game\Handler@quit', Input::all());});
+        Route::get('deal', 'CardsController@deal');
+        Route::get('start', 'CardsController@start');
+        Route::get('show', 'CardsController@show');
+        Route::post('play', 'CardsController@play');
+        Route::post('choose', 'CardsController@choose');
+        Route::get('quit', 'CardsController@quit');
     });
-
+    
 ```
 
 Players can use public messages to trigger all of these endpoints except for `Route::post('play',...)`. This needs to played in secret. A [Custom Slash Command](https://api.slack.com/slash-commands) is perfect for this. 
@@ -147,6 +159,7 @@ We use our hubot, Sterling, to play the other commands. The coffee script is a f
  * Tie the `@user++` message at the end of the round into the [Hubot-PlusPlus](https://github.com/ajacksified/hubot-plusplus) script
  * Remove or build in, dependancy of maknz/flash, instead of trusting it's already implemented
  * Add configuration for which room to play SAH in instead of assuming `#cards`
+ * Automate controllers and routes so the user doesn't need to interfere
 
 # License
 
