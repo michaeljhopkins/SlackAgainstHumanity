@@ -75,7 +75,6 @@ class Cards
 
     public function removeCardsFromPlay()
     {
-
         Card::whereInPlay(1)->update(['in_play' => 0, 'player_id' => null]);
         $this->player->wherePlayed(0)->whereIsJudge(0)->update(['idle' => 1]);
         $this->player->whereCah(1)->wherePlayed(1)->update(['played' => 0, 'idle' => 0]);
@@ -84,12 +83,13 @@ class Cards
     public function maintainEight()
     {
         $players = $this->player->with(['cards'])->whereCah(1)->get();
-        /** @var \Hopkins\SlackAgainstHumanity\Models\$player */
+        /** @var \Hopkins\SlackAgainstHumanity\Models\Player $player */
         foreach ($players as $player) {
             if ($player->num_cards < 8) {
                 $needAmount = 8-$player->num_cards;
                 $cards = Card::randomWhites()->limit($needAmount)->get();
                 foreach ($cards as $card) {
+                    /** @var \Hopkins\SlackAgainstHumanity\Models\Card $card */
                     $card->update(['player_id' => $player->id, 'dealt' => 1]);
                     Slack::to("@".$player->user_name)->send($card->id.". ".$card->text);
                 }
@@ -136,12 +136,13 @@ class Cards
     }
 
     public function start(){
+        /** @var \Hopkins\SlackAgainstHumanity\Models\Player $user */
         $user = Player::whereCah(1)->orderBy(DB::raw('RAND()'))->first();
         $user->update(['is_judge' => 1]);
-        /** @var \Idop\Models\Card $card */
+        /** @var \Hopkins\SlackAgainstHumanity\Models\Card $card */
         $card = Card::whereColor('black')->orderBy(DB::raw('RAND()'))->first();
         $card->update(['dealt'=>1,'user_id' => $user->id,'in_play'=>1]);
-        Slack::to('#cards')->send("@".$user->username." is the Judge");
+        Slack::to('#cards')->send("@".$user->user_name." is the Judge");
         Slack::to("#cards")->send($card->text);
         Slack::to("#cards")->send("use /cards {id} to play a card. Only you will know which card is yours");
     }
