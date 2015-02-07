@@ -5,8 +5,9 @@ use Hopkins\SlackAgainstHumanity\Models\Card;
 use Hopkins\SlackAgainstHumanity\Models\Player;
 use Input;
 use Response;
+use Illuminate\Routing\Controller;
 
-class BaseCardsController {
+class BaseCardsController extends Controller{
     public function __construct(Cards $cards)
     {
         $this->cards = $cards;

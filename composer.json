@@ -18,7 +18,8 @@
   ],
   "require": {
     "illuminate/database": "5.*",
-    "illuminate/support": "5.*"
+    "illuminate/support": "5.*",
+    "illuminate/routing": "5.*"
   },
   "autoload": {
     "psr-4": {
