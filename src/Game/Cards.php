@@ -33,7 +33,7 @@ class Cards
         }
         Slack::to("#cards")->send("@".$judge->user_name." please respond with `/choose {id}`");
     }
-    public function play(Model $player,Collection $card)
+    public function play(Model $player,Card $card)
     {
         if (!$player->played && $player->id == $card->player_id) {
             $card->update(['in_play' => 1]);
