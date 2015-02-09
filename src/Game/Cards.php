@@ -53,10 +53,8 @@ class Cards
     }
     public function endRoundCheck()
     {
-        if ($this->player->whereCah(1)->whereIsJudge(0)->wherePlayed(0)->whereIdle(0)->get()->isEmpty()) {
-            $judge = $this->player->with(['cards'])->whereIsJudge(1)->first();
-            $whiteCards = Card::whereColor('white')->whereInPlay(1)->get();
-            $this->endRound($judge, $whiteCards);
+        if (count(Player::whereCah(1)->whereIsJudge(0)->wherePlayed(0)->whereIdle(0)->get()) == 0) {
+            $this->endRound();
         }
     }
     public function deal($playerUsername)
