@@ -63,4 +63,8 @@ class BaseCardsController extends Controller{
     public function start(){
         $this->cards->start();
     }
+
+    public function status(){
+        $this->cards->status();
+    }
 }

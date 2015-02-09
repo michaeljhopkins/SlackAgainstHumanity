@@ -148,4 +148,14 @@ class Cards
         Slack::to("#cards")->send($card->text);
         Slack::to("#cards")->send("use /cards {id} to play a card. Only you will know which card is yours");
     }
+
+    public function status(){
+        $judge = Player::whereIsJudge(1)->first();
+        Slack::to('#cards')->send("@".$judge->user_name." is this rounds Judge.");
+        $waitingFor = Player::whereCah(1)->wherePlayed(0)->whereIsJudge(0)->get();
+        Slack::to('#cards')->send("We are currently waiting for - ");
+        foreach($waitingFor as $user){
+            Slack::to('#cards')->send('@'.$user->user_name);
+        }
+    }
 }

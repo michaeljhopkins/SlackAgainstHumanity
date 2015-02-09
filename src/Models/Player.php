@@ -15,8 +15,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property-read \Illuminate\Database\Eloquent\Collection|\$related[] $morphedByMany 
  * @method static Builder|Player whereId($value)
  * @method static Builder|Player whereUserName($value)
- * @method static Builder|Player wherePassword($value)
- * @method static Builder|Player whereRememberToken($value)
+ * @method static Builder|Player whereCah($value)
+ * @method static Builder|Player whereIdle($value)
+ * @method static Builder|Player whereIsJudge($value)
+ * @method static Builder|Player wherePlayed($value)
+ * @method static Builder|Player whereNumCards($value)
  * @method static Builder|Player whereCreatedAt($value)
  * @method static Builder|Player whereUpdatedAt($value)
  */
