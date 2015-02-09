@@ -28,12 +28,6 @@ class BaseCardsController extends Controller{
         return Response::json(['message'=>'success']);
     }
 
-    public function endRound()
-    {
-        $this->cards->endRound();
-        return Response::json(['message'=>'success']);
-    }
-
     public function choose()
     {
         $cardId = Input::get('text');
