@@ -14,8 +14,12 @@ class Cards
         $this->card = $card;
         $this->player = $player;
     }
-    public function choose(Player $player, Card $card)
+    public function choose($playerUserName, $cardId)
     {
+        /** @var \Hopkins\SlackAgainstHumanity\Models\Player $player */
+        $player = Player::whereUserName($playerUserName)->first();
+        /** @var \Hopkins\SlackAgainstHumanity\Models\Card $card */
+        $card = Card::find($cardId);
         if ($player->is_judge) {
             $this->pickWinner($card->id);
             $this->endGameCommands($player);
@@ -24,17 +28,21 @@ class Cards
         }
     }
 
-    public function endRound(Collection $judge, array $whiteCards)
+    public function endRound()
     {
         $blackCard = Card::whereColor('black')->whereInPlay(1)->first();
+        $judge = Player::with(['cards'])->find($blackCard->user_id);
+        $whiteCards = Card::whereColor('white')->whereInPlay(1)->get();
         Slack::send($blackCard->text);
         foreach ($whiteCards as $card) {
             Slack::to("#cards")->send($card->id.". ".$card->text);
         }
         Slack::to("#cards")->send("@".$judge->user_name." please respond with `/choose {id}`");
     }
-    public function play(Model $player,Card $card)
+    public function play($playerUserName,$cardId)
     {
+        $player = Player::with(['cards'])->where('user_name','=',$playerUserName)->first();
+        $card = Card::find($cardId);
         if (!$player->played && $player->id == $card->player_id) {
             $card->update(['in_play' => 1]);
             $player->update(['played' => 1, 'num_cards' => $player->num_cards - 1, 'idle' => 0]);
@@ -51,8 +59,9 @@ class Cards
             $this->endRound($judge, $whiteCards);
         }
     }
-    public function deal(Model $player)
+    public function deal($playerUsername)
     {
+        $player = Player::with(['cards'])->whereUserName($playerUsername)->first();
         if ($player->cah == 0) {
             if (Player::whereCah(1)->whereIdle(0)->get()->count() == 2) {
                 $player->update(['cah' => 1, 'idle' => 0]);
@@ -130,8 +139,10 @@ class Cards
         }
     }
 
-    public function show(Player $player, Collection $cards)
+    public function show($playerUserName)
     {
+        $player = Player::whereUserName($playerUserName)->first();
+        $cards = Card::whereUserId($player->id)->whereColor('white')->wherePlayed(0)->get();
         foreach ($cards as $card) {
             Slack::to("@".$player->user_name)->send($card->id.". ".$card->text);
         }

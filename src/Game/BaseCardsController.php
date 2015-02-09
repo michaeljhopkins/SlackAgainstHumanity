@@ -15,34 +15,30 @@ class BaseCardsController extends Controller{
 
     public function deal()
     {
-        $player = Player::with(['cards'])->where('user_name','=',Input::get('user_name'))->first();
-        $this->cards->deal($player);
+        $playerUserName = Input::get('user_name');
+        $this->cards->deal($playerUserName);
         return Response::json(['message'=>'success']);
     }
 
     public function play()
     {
-        $player = Player::with(['cards'])->where('user_name','=',Input::get('user_name'))->first();
-        $card = Card::find(Input::get('text'));
-        $this->cards->play($player, $card);
+        $playerUserName = Input::get('user_name');
+        $cardId = Input::get('text');
+        $this->cards->play($playerUserName, $cardId);
         return Response::json(['message'=>'success']);
     }
 
     public function endRound()
     {
-        $blackCard = Card::whereColor('black')->whereInPlay(1)->first();
-        $judge = Player::with(['cards'])->find($blackCard->user_id);
-        $whiteCards = Card::whereColor('white')->whereInPlay(1)->get()->toArray();
-        $this->cards->endRound($judge, $whiteCards);
+        $this->cards->endRound();
         return Response::json(['message'=>'success']);
     }
 
     public function choose()
     {
-        /** @var \Hopkins\SlackAgainstHumanity\Models\Card $card */
-        $card = Card::find(Input::get('text'));
-        $player = Player::where('user_name','=',Input::get('user_name'))->first();
-        $this->cards->choose($player, $card);
+        $cardId = Input::get('text');
+        $playerUserName = Input::get('user_name');
+        $this->cards->choose($playerUserName, $cardId);
         return Response::json(['message'=>'success']);
     }
 
@@ -54,9 +50,8 @@ class BaseCardsController extends Controller{
 
     public function show()
     {
-        $player = Player::where('user_name','=',Input::get('user_name'))->first();
-        $cards = Card::whereUserId($player->id)->whereColor('white')->wherePlayed(0)->get();
-        $this->cards->show($player, $cards);
+        $playerUserName = Input::get('user_name');
+        $this->cards->show($playerUserName);
         return Response::json(['message'=>'success']);
     }
 
