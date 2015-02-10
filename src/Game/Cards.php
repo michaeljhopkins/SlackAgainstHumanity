@@ -119,7 +119,9 @@ class Cards
     public function deal($playerUsername)
     {
         $player = Player::with(['cards'])->whereUserName($playerUsername)->first();
-        if ($player->cah === 0) {
+        if ($player->cah === 1) {
+            Slack::to('@' . $player->user_name)->send('You\'ve already been dealt');
+        } else {
             $players = Player::whereCah(1)->whereIdle(0)->get()->count();
             if ($players === 2) {
                 $player->update(['cah' => 1, 'idle' => 0]);
@@ -129,8 +131,6 @@ class Cards
                 $player->update(['cah' => 1, 'idle' => 0]);
                 $this->maintainEight();
             }
-        } else {
-            Slack::to('@' . $player->user_name)->send('You\'ve already been dealt');
         }
     }
 
