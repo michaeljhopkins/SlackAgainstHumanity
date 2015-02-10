@@ -7,15 +7,6 @@ use Slack;
 
 class Cards
 {
-    /**
-     * @var \Maknz\Slack\Message $slack
-     */
-    private $slack;
-
-    public function __construct(Slack $slack)
-    {
-        $this->slack = $slack;
-    }
     public function choose($playerUserName, $cardId)
     {
         $player = Player::whereUserName($playerUserName)->first();
@@ -24,7 +15,7 @@ class Cards
             $this->pickWinner($card->id);
             $this->endGameCommands($player);
         } else {
-            $this->slack->to('@' . $player->user_name)->send('You\'re not the judge!');
+            Slack::to('@' . $player->user_name)->send('You\'re not the judge!');
         }
     }
 
@@ -34,7 +25,7 @@ class Cards
         /** @var \Hopkins\SlackAgainstHumanity\Models\Card $winningCard */
         $winningCard = Card::find($cardId);
         $winningPlayer = Player::find($winningCard->player_id);
-        $this->slack->to('#cards')->send('@' . $winningPlayer->user_name . '++ for ' . $winningCard->text);
+        Slack::to('#cards')->send('@' . $winningPlayer->user_name . '++ for ' . $winningCard->text);
     }
 
     public function endGameCommands(Player $player)
@@ -45,7 +36,7 @@ class Cards
         if (Player::whereCah(1)->whereIdle(0)->get()->count() >= 3) {
             $this->pickNewBlackCard();
         } else {
-            $this->slack->to('#cards')->send('You need at least 3 players. Convince somebody else to not work and get dealt in');
+            Slack::to('#cards')->send('You need at least 3 players. Convince somebody else to not work and get dealt in');
         }
     }
 
@@ -67,7 +58,7 @@ class Cards
                 $cards = Card::randomWhites()->limit($needAmount)->get();
                 foreach ($cards as $card) {
                     $card->update(['player_id' => $player->id, 'dealt' => 1]);
-                    $this->slack->to('@' . $player->user_name)->send($card->id . '. ' . $card->text);
+                    Slack::to('@' . $player->user_name)->send($card->id . '. ' . $card->text);
                 }
                 $player->update(['num_cards' => 8]);
             }
@@ -80,7 +71,7 @@ class Cards
         $player = Player::whereCah(1)->whereIsJudge(0)->whereIdle(0)->orderBy(DB::raw('RAND()'))->first();
         $player->update(['is_judge' => 1]);
         $oldJudge->update(['is_judge' => 0, 'idle' => 0]);
-        $this->slack->to('#cards')->send('The next judge is @' . $player->user_name);
+        Slack::to('#cards')->send('The next judge is @' . $player->user_name);
     }
 
     public function pickNewBlackCard()
@@ -88,8 +79,8 @@ class Cards
         $card = Card::randomNewBlack()->first();
         $judge = Player::whereIsJudge(1)->first();
         $card->update(['dealt' => 1, 'in_play' => 1, 'player_id' => $judge->id]);
-        $this->slack->to('#cards')->send($card->text);
-        $this->slack->to('#cards')->send('use `/cards {id}` to play a card. Only you will know which card is yours');
+        Slack::to('#cards')->send($card->text);
+        Slack::to('#cards')->send('use `/cards {id}` to play a card. Only you will know which card is yours');
     }
 
     public function play($playerUserName, $cardId)
@@ -100,7 +91,7 @@ class Cards
             $card->update(['in_play' => 1]);
             $player->update(['played' => 1, 'num_cards' => $player->num_cards - 1, 'idle' => 0]);
         } else {
-            $this->slack->to('@' . $player->user_name)->send('You\'ve already played a card');
+            Slack::to('@' . $player->user_name)->send('You\'ve already played a card');
         }
         $this->endRoundCheck();
     }
@@ -118,11 +109,11 @@ class Cards
         $blackCard = Card::whereColor('black')->whereInPlay(1)->first();
         $judgeUserName = Player::with(['cards'])->find($blackCard->user_id);
         $whiteCards = Card::whereColor('white')->whereInPlay(1)->get();
-        $this->slack->to('#cards')->send($blackCard->text);
+        Slack::to('#cards')->send($blackCard->text);
         foreach ($whiteCards as $card) {
-            $this->slack->to('#cards')->send($card->id . '. ' . $card->text);
+            Slack::to('#cards')->send($card->id . '. ' . $card->text);
         }
-        $this->slack->to('#cards')->send('@' . $judgeUserName . ' please respond with `/choose {id}`');
+        Slack::to('#cards')->send('@' . $judgeUserName . ' please respond with `/choose {id}`');
     }
 
     public function deal($playerUsername)
@@ -139,7 +130,7 @@ class Cards
                 $this->maintainEight();
             }
         } else {
-            $this->slack->to('@' . $player->user_name)->send('You\'ve already been dealt');
+            Slack::to('@' . $player->user_name)->send('You\'ve already been dealt');
         }
     }
 
@@ -148,7 +139,7 @@ class Cards
         $player = Player::whereUserName($playerUserName)->first();
         $cards = Card::whereUserId($player->id)->whereColor('white')->wherePlayed(0)->get();
         foreach ($cards as $card) {
-            $this->slack->to('@' . $player->user_name)->send($card->id . '. ' . $card->text);
+            Slack::to('@' . $player->user_name)->send($card->id . '. ' . $card->text);
         }
     }
 
@@ -160,19 +151,19 @@ class Cards
         $user->update(['is_judge' => 1]);
         $card = Card::whereColor('black')->orderBy(DB::raw('RAND()'))->first();
         $card->update(['dealt' => 1, 'user_id' => $user->id, 'in_play' => 1]);
-        $this->slack->to('#cards')->send('@' . $user->user_name . ' is the Judge');
-        $this->slack->to('#cards')->send($card->text);
-        $this->slack->to('#cards')->send('use /cards {id} to play a card. Only you will know which card is yours');
+        Slack::to('#cards')->send('@' . $user->user_name . ' is the Judge');
+        Slack::to('#cards')->send($card->text);
+        Slack::to('#cards')->send('use /cards {id} to play a card. Only you will know which card is yours');
     }
 
     public function status()
     {
         $judge = Player::whereIsJudge(1)->first();
-        $this->slack->to('#cards')->send('@' . $judge->user_name . ' is this rounds Judge.');
+        Slack::to('#cards')->send('@' . $judge->user_name . ' is this rounds Judge.');
         $waitingFor = Player::whereCah(1)->wherePlayed(0)->whereIsJudge(0)->get();
-        $this->slack->to('#cards')->send('We are currently waiting for - ');
+        Slack::to('#cards')->send('We are currently waiting for - ');
         foreach ($waitingFor as $user) {
-            $this->slack->to('#cards')->send('@' . $user->user_name);
+            Slack::to('#cards')->send('@' . $user->user_name);
         }
     }
 }
