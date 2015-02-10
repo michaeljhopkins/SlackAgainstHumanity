@@ -87,7 +87,7 @@ class Cards
     {
         $player = Player::with(['cards'])->where('user_name', '=', $playerUserName)->first();
         $card = Card::find($cardId);
-        if (!$player->played && $player->id === $card->player_id) {
+        if (!$player->played && $player->id == $card->player_id) {
             $card->update(['in_play' => 1]);
             $player->update(['played' => 1, 'num_cards' => $player->num_cards - 1, 'idle' => 0]);
         } else {
@@ -99,7 +99,7 @@ class Cards
     public function endRoundCheck()
     {
         $players = Player::whereCah(1)->whereIsJudge(0)->wherePlayed(0)->whereIdle(0)->get();
-        if (count($players) === 0) {
+        if (count($players) == 0) {
             $this->endRound();
         }
     }
@@ -119,11 +119,11 @@ class Cards
     public function deal($playerUsername)
     {
         $player = Player::with(['cards'])->whereUserName($playerUsername)->first();
-        if ($player->cah === 1) {
+        if ($player->cah == 1) {
             Slack::to('@' . $player->user_name)->send('You\'ve already been dealt');
         } else {
             $players = Player::whereCah(1)->whereIdle(0)->get()->count();
-            if ($players === 2) {
+            if ($players == 2) {
                 $player->update(['cah' => 1, 'idle' => 0]);
                 $this->maintainEight();
                 $this->pickNewBlackCard();
