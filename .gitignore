@@ -3,3 +3,4 @@
 composer.lock
 /.idea
 /.php_cs
+/_ide_helper.php

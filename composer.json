@@ -19,7 +19,8 @@
   "require": {
     "illuminate/database": "5.*",
     "illuminate/support": "5.*",
-    "illuminate/routing": "5.*"
+    "illuminate/routing": "5.*",
+    "maknz/slack": "dev-master"
   },
   "autoload": {
     "psr-4": {
