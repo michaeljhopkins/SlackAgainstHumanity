@@ -137,7 +137,7 @@ class Cards
     public function show($playerUserName)
     {
         $player = Player::whereUserName($playerUserName)->first();
-        $cards = Card::whereUserId($player->id)->whereColor('white')->wherePlayed(0)->get();
+        $cards = Card::wherePlayerId($player->id)->whereColor('white')->wherePlayed(0)->get();
         foreach ($cards as $card) {
             Slack::to('@' . $player->user_name)->send($card->id . '. ' . $card->text);
         }
