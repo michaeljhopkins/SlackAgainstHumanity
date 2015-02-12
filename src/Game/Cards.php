@@ -107,7 +107,7 @@ class Cards
     public function endRound()
     {
         $blackCard = Card::whereColor('black')->whereInPlay(1)->first();
-        $judgeUserName = Player::with(['cards'])->find($blackCard->user_id)->user_name;
+        $judgeUserName = Player::with(['cards'])->find($blackCard->player_id)->user_name;
         $whiteCards = Card::whereColor('white')->whereInPlay(1)->get();
         Slack::to('#cards')->send($blackCard->text);
         foreach ($whiteCards as $card) {
