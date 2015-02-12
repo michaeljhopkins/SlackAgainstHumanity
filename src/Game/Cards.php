@@ -150,7 +150,7 @@ class Cards
         $user = Player::whereCah(1)->orderBy(DB::raw('RAND()'))->first();
         $user->update(['is_judge' => 1]);
         $card = Card::whereColor('black')->orderBy(DB::raw('RAND()'))->first();
-        $card->update(['dealt' => 1, 'user_id' => $user->id, 'in_play' => 1]);
+        $card->update(['dealt' => 1, 'player_id' => $user->id, 'in_play' => 1]);
         Slack::to('#cards')->send('@' . $user->user_name . ' is the Judge');
         Slack::to('#cards')->send($card->text);
         Slack::to('#cards')->send('use /cards {id} to play a card. Only you will know which card is yours');
