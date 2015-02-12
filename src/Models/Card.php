@@ -23,7 +23,7 @@ use DB;
  * @method static Builder|Card whereDealt($value)
  * @method static Builder|Card wherePlayed($value)
  * @method static Builder|Card whereInPlay($value)
- * @method static Builder|Card whereUserId($value)
+ * @method static Builder|Card wherePlayerId($value)
  * @method static Builder|Card whereCreatedAt($value)
  * @method static Builder|Card whereUpdatedAt($value)
  * @method static Card randomWhites()
