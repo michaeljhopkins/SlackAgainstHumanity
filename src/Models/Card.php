@@ -1,5 +1,6 @@
 <?php namespace Hopkins\SlackAgainstHumanity\Models;
 
+use Hopkins\GamesBase\Models\Player;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 

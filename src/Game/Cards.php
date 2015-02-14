@@ -1,8 +1,8 @@
 <?php namespace Hopkins\SlackAgainstHumanity\Game;
 
 use DB;
+use Hopkins\GamesBase\Models\Player;
 use Hopkins\SlackAgainstHumanity\Models\Card;
-use Hopkins\SlackAgainstHumanity\Models\Player;
 use Slack;
 
 class Cards
@@ -21,7 +21,7 @@ class Cards
 
     public function pickWinner($cardId)
     {
-        /** @var \Hopkins\SlackAgainstHumanity\Models\Player $winningPlayer */
+        /** @var \Hopkins\GamesBase\Models\Player $winningPlayer */
         /** @var \Hopkins\SlackAgainstHumanity\Models\Card $winningCard */
         $winningCard = Card::find($cardId);
         $winningPlayer = Player::find($winningCard->player_id);
@@ -49,7 +49,7 @@ class Cards
 
     public function maintainEight()
     {
-        /** @var \Hopkins\SlackAgainstHumanity\Models\Player $player */
+        /** @var \Hopkins\GamesBase\Models\Player $player */
         /** @var \Hopkins\SlackAgainstHumanity\Models\Card $card */
         $players = Player::with(['cards'])->whereCah(1)->get();
         foreach ($players as $player) {
@@ -146,7 +146,7 @@ class Cards
     public function start()
     {
         /** @var \Hopkins\SlackAgainstHumanity\Models\Card $card */
-        /** @var \Hopkins\SlackAgainstHumanity\Models\Player $user */
+        /** @var \Hopkins\GamesBase\Models\Player $user */
         $user = Player::whereCah(1)->orderBy(DB::raw('RAND()'))->first();
         $user->update(['is_judge' => 1]);
         $card = Card::whereColor('black')->orderBy(DB::raw('RAND()'))->first();

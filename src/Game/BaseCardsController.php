@@ -1,6 +1,5 @@
 <?php namespace Hopkins\SlackAgainstHumanity\Game;
 
-use Hopkins\SlackAgainstHumanity\Models\Player;
 use Input;
 use Response;
 use Illuminate\Routing\Controller;
