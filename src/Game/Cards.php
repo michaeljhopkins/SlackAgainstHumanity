@@ -2,6 +2,7 @@
 
 use DB;
 use Hopkins\GamesBase\Models\Player;
+use Hopkins\GamesBase\Models\Point;
 use Hopkins\SlackAgainstHumanity\Models\Card;
 use Slack;
 
@@ -87,6 +88,7 @@ class Cards
     {
         $winningCard = Card::find($cardId);
         $winningPlayer = Player::find($winningCard->player_id);
+        Point::create(['player_id' => $winningPlayer->id, 'modifier' => '1','reason' => $winningCard->text]);
         Slack::to('#cards')->send('@' . $winningPlayer->user_name . '++ for ' . $winningCard->text);
     }
 
