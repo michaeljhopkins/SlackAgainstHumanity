@@ -1,6 +1,7 @@
 <?php namespace Hopkins\SlackAgainstHumanity\Models;
 
 use Hopkins\GamesBase\Models\Player;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use DB;
 
@@ -34,7 +35,6 @@ use DB;
 class Card extends Model
 {
     protected $guarded = ['id'];
-    protected $fillable = ['dealt','player_id','text','color','in_play'];
     protected $table = 'cards';
 
     public function player()
