@@ -7,17 +7,17 @@ use DB;
 /**
  * Hopkins\SlackAgainstHumanity\Models\Card
  *
- * @property integer $id 
- * @property string $text 
- * @property string $color 
- * @property integer $dealt 
- * @property integer $played 
- * @property integer $in_play 
- * @property integer $user_id 
- * @property \Carbon\Carbon $created_at 
- * @property \Carbon\Carbon $updated_at 
- * @property-read Player $player 
- * @property-read \Illuminate\Database\Eloquent\Collection|\$related[] $morphedByMany 
+ * @property integer $id
+ * @property string $text
+ * @property string $color
+ * @property integer $dealt
+ * @property integer $played
+ * @property integer $in_play
+ * @property integer $user_id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property-read Player $player
+ * @property-read \Illuminate\Database\Eloquent\Collection|\$related[] $morphedByMany
  * @method static Builder|Card whereId($value)
  * @method static Builder|Card whereText($value)
  * @method static Builder|Card whereColor($value)
@@ -29,6 +29,7 @@ use DB;
  * @method static Builder|Card whereUpdatedAt($value)
  * @method static Card randomWhites()
  * @method static Card randomNewBlack()
+ * @property integer $player_id
  */
 class Card extends Model
 {
