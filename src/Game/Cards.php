@@ -86,9 +86,13 @@ class Cards
 
     private function pickWinner($cardId)
     {
+        /**
+         * @var \Hopkins\GamesBase\Models\Player $winningPlayer
+         * @var \Hopkins\SlackAgainstHumanity\Models\Card $winningCard
+         */
         $winningCard = Card::find($cardId);
         $winningPlayer = Player::find($winningCard->player_id);
-        Point::create(['player_id' => $winningPlayer->id, 'modifier' => '1','reason' => $winningCard->text]);
+        Point::create(['for' => $winningPlayer->user_name, 'modifier' => '1','reason' => $winningCard->text,'room' => 'cards']);
         Slack::to('#cards')->send('@' . $winningPlayer->user_name . '++ for ' . $winningCard->text);
     }
 
