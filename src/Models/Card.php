@@ -14,7 +14,7 @@ use DB;
  * @property integer $dealt
  * @property integer $played
  * @property integer $in_play
- * @property integer $user_id
+ * @property integer $player_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  * @property-read Player $player
@@ -30,12 +30,10 @@ use DB;
  * @method static Builder|Card whereUpdatedAt($value)
  * @method static Card randomWhites()
  * @method static Card randomNewBlack()
- * @property integer $player_id
  */
 class Card extends Model
 {
     protected $guarded = ['id'];
-    protected $table = 'cards';
 
     public function player()
     {
