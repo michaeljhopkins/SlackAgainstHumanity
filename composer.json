@@ -20,8 +20,8 @@
     "illuminate/database": "5.*",
     "illuminate/support": "5.*",
     "illuminate/routing": "5.*",
-    "hopkins/gamesbase": "1.0.*@dev",
-    "maknz/slack": "1.2.0"
+    "maknz/slack": "1.2.0",
+    "hopkins/gamesbase": "dev-develop"
   },
   "autoload": {
     "psr-4": {

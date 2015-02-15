@@ -1,21 +1,22 @@
 <?php namespace Hopkins\SlackAgainstHumanity\Game;
 
 use DB;
+use Hopkins\GamesBase\Interfaces\PlayerInterface;
 use Hopkins\GamesBase\Models\Player;
 use Hopkins\GamesBase\Models\Point;
-use Hopkins\SlackAgainstHumanity\Interfaces\PlayerInterface;
 use Hopkins\SlackAgainstHumanity\Models\Card;
 use Slack;
 
 class Cards
 {
-
     /**
      * @var PlayerInterface
      */
     private $player;
 
-    public function __construct(PlayerInterface $player){
+    public function __construct(PlayerInterface $player)
+    {
+
         $this->player = $player;
     }
     /*************************************************/
