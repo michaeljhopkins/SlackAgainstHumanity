@@ -100,7 +100,7 @@ class Cards
             if ($players == 2) {
                 $player->update(['cah' => 1, 'idle' => 0]);
                 $this->maintainEight();
-                $this->pickNewBlackCard();
+                $this->start();
             } else {
                 $player->update(['cah' => 1, 'idle' => 0]);
                 $this->maintainEight();
