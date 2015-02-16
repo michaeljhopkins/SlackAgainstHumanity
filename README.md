@@ -150,7 +150,6 @@ We use our hubot, Sterling, to play the other commands. The coffee script is a f
  * Add in tests to verify complete functioning package
  * Black cards that require 2 cards (and more) from each player
  * Using an image processing library to generate an actual "card" instead of just a message
- * Tie the `@user++` message at the end of the round into the [Hubot-PlusPlus](https://github.com/ajacksified/hubot-plusplus) script
  * Remove or build in, dependancy of maknz/flash, instead of trusting it's already implemented
  * Add configuration for which room to play SAH in instead of assuming `#cards`
  * Automate controllers and routes so the user doesn't need to interfere
