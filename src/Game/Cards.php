@@ -2,7 +2,6 @@
 
 use DB;
 use Hopkins\GamesBase\Interfaces\PlayerInterface;
-use Hopkins\GamesBase\Models\Player;
 use Hopkins\GamesBase\Models\Point;
 use Hopkins\SlackAgainstHumanity\Models\Card;
 use Slack;
@@ -51,6 +50,20 @@ class Cards
         foreach ($waitingFor as $user) {
             Slack::to('#cards')->send('@' . $user->user_name);
         }
+    }
+
+    public function quit($username)
+    {
+        /** @var \Hopkins\GamesBase\Models\Player $player */
+        /** @var \Hopkins\SlackAgainstHumanity\Models\Card $cards */
+        $cards = Card::wherePlayerId($player->id)->get();
+        $player = $this->player->whereUserName($username)->first();
+        $player->update(['cah'=>0,'num_cards' => 0,'played' => 0, 'num_cards'=>0,'is_judge' => 0]);
+        foreach($cards as $card){
+            /** @var \Hopkins\SlackAgainstHumanity\Models\Card $card */
+            $card->update(['played' => 1,'player_id' => null]);
+        }
+
     }
 
     public function choose($playerUserName, $cardId)

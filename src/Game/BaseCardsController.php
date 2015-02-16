@@ -1,11 +1,11 @@
 <?php namespace Hopkins\SlackAgainstHumanity\Game;
 
-use Hopkins\GamesBase\Models\Player;
 use Input;
 use Response;
 use Illuminate\Routing\Controller;
 
 class BaseCardsController extends Controller{
+
     public function __construct(Cards $cards)
     {
         $this->cards = $cards;
@@ -36,7 +36,7 @@ class BaseCardsController extends Controller{
 
     public function quit()
     {
-        Player::find(Input::get('id'))->update(['cards' => 0]);
+        $this->cards->quit(Input::get('user_name'));
         return Response::json(['message'=>'success']);
     }
 
