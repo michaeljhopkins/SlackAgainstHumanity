@@ -55,7 +55,6 @@ class Cards
     public function quit($username)
     {
         /** @var \Hopkins\GamesBase\Models\Player $player */
-        /** @var \Hopkins\SlackAgainstHumanity\Models\Card $cards */
         $cards = Card::wherePlayerId($player->id)->get();
         $player = $this->player->whereUserName($username)->first();
         $player->update(['cah'=>0,'num_cards' => 0,'played' => 0, 'num_cards'=>0,'is_judge' => 0]);
