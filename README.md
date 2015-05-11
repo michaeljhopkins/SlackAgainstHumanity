@@ -14,7 +14,7 @@ Slack Against Humanity is a Slack/Hubot implementation of the popular card game,
 - A randomly picked Judge each round
 - Ability to enter and exit play **on your time**
 - Laravel **5.x** compatibility
-- Intellegence on who is actually playing or not
+- Intelligence on who is actually playing or not
 - with many more features in the works.
 
 ---
