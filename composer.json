@@ -20,7 +20,7 @@
     "illuminate/database": "5.*",
     "illuminate/support": "5.*",
     "illuminate/routing": "5.*",
-    "maknz/slack": "1.2.0",
+    "maknz/slack": "^1.7.0",
     "hopkins/gamesbase": "dev-develop"
   },
   "autoload": {
