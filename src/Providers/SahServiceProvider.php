@@ -7,22 +7,17 @@ class SahServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        $createCardsTable = 'create_cards_table.php';
-        $createPlayersTable = 'create_players_table.php';
-        $cardsMigration = __DIR__.'/../Database/migrations'.$createCardsTable;
-        $playersMigration = __DIR__.'/../Database/migrations'.$createPlayersTable;
         $this->publishes([
-            $cardsMigration => $this->app['path.database'].'/migrations/'. $this->getDatePrefix().$createCardsTable,
-            $playersMigration => $this->app['path.database'].'/migrations/'. $createPlayersTable
-        ]);
+            __DIR__.'/../Database/migrations' => database_path('migrations')
+        ], 'migrations');
+
+        $this->publishes([
+            __DIR__.'/../Database/seeds' => database_path('seeds')
+        ], 'seeds');
     }
 
     public function register()
     {
 
-    }
-    protected function getDatePrefix()
-    {
-        return date('Y_m_d_His');
     }
 }
